@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
   return (
@@ -16,10 +17,10 @@ function Navbar() {
       <div className="w-[70%] bg-[#252323] h-full flex justify-between px-10">
         <ul className="flex gap-10 items-center h-full text-white">
           <li className="cursor-pointer hover:underline hover:decoration-yellow-500">
-            <a href="#home">HOME</a>
+            <NavLink to=''>HOME</NavLink>
           </li>
           <li className="cursor-pointer hover:underline hover:decoration-yellow-500">
-            <a href="#shop">SHOP</a>
+            <NavLink to='/shop'>SHOP</NavLink>
           </li>
           <li className="cursor-pointer hover:underline hover:decoration-yellow-500">
             <a href="#about">ABOUT</a>
