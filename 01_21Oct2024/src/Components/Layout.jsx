@@ -1,15 +1,13 @@
 import React from 'react'
 import Navbar from './Navbar'
-import Hero from './Hero'
 import Footer from './Footer'
-import Shop from './Shop.jsx'
+import { Outlet } from 'react-router-dom'
 
 function Layout() {
   return (
     <div>
         <Navbar/>
-        <Hero/>
-        <Shop/>
+        <Outlet/>
         <Footer/>
       
     </div>
