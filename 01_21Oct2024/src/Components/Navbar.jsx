@@ -2,7 +2,7 @@ import React from "react";
 
 function Navbar() {
   return (
-    <nav className="flex w-screen h-14 fixed top-0">
+    <nav className="flex w-screen h-14 fixed top-0 z-20">
       <div className="w-[30%] bg-black h-full flex items-center justify-center gap-6">
         <span className="h-full w-auto">
           <img
