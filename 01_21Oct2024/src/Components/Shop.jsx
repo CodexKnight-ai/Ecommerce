@@ -12,10 +12,41 @@ function Shop() {
         img: '/test.png',
       },
       {
-        title: 'Wood Rail Staircase 2',
+        title: 'Wood Rail Staircase 1',
         price: '0$',
-        img: '/login.png',
+        img: '/test.png',
       },
+      {
+        title: 'Wood Rail Staircase 1',
+        price: '0$',
+        img: '/test.png',
+      },
+      {
+        title: 'Wood Rail Staircase 1',
+        price: '0$',
+        img: '/test.png',
+      },
+      {
+        title: 'Wood Rail Staircase 1',
+        price: '0$',
+        img: '/test.png',
+      },
+      {
+        title: 'Wood Rail Staircase 1',
+        price: '0$',
+        img: '/test.png',
+      }, {
+        title: 'Wood Rail Staircase 1',
+        price: '0$',
+        img: '/test.png',
+      },
+      {
+        title: 'Wood Rail Staircase 1',
+        price: '0$',
+        img: '/test.png',
+      },
+      
+      
     ],
     'Main door grill': [
       {
@@ -114,18 +145,18 @@ function Shop() {
 
   return (
 
-    <div className="bg-[#F8FBF8] w-screen h-screen flex flex-col py-10">
+    <div className="bg-[#F8FBF8] w-screen h-screen flex flex-col py-10 ">
       <h1 className="self-center text-4xl">Shop</h1>
       <CategoriesBar />
 
       {/* Product Cards for the Active Tab */}
-      <div className="flex justify-center mt-10 space-x-6">
+      <div className="flex justify-center mt-10 space-x-6 h-[30em] flex-wrap">
         {activeProducts.map((product, index) => (
-          <div key={index} className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <a href="#">
-              <img className="rounded-t-lg" src={product.img} alt={product.title} />
+          <div key={index} className="max-w-sm my-[4px] bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="#" className='h-[60%]'>
+              <img className="rounded-t-lg h-[60%] w-full" src={product.img} alt={product.title} />
             </a>
-            <div className="p-5 ">
+            <div className="p-5 h-[40%]">
               <a href="#">
                 <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                   {product.title}
