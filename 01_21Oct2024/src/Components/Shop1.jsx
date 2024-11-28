@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 function Shop() {
-  // Comprehensive product data with unique details
+  // Keeping the existing productData the same
   const productData = {
     'Wood rail staircase': [
       {
@@ -100,31 +100,41 @@ function Shop() {
     const tabs = Object.keys(productData);
 
     return (
-      <div className="w-full text-center py-6 px-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full text-center py-6 px-4"
+      >
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Our Categories</h2>
         
         <div className="flex flex-wrap items-center justify-center space-x-2 md:space-x-4 mb-4">
           {tabs.map((tab) => (
-            <button
+            <motion.button
               key={tab}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab(tab)}
-              className={`
-                px-3 py-2 md:px-4 md:py-2 text-sm md:text-base 
-                font-medium rounded-lg 
-                transition-colors duration-300 
-                ${activeTab === tab
+              className={`px-3 py-2 md:px-4 md:py-2 text-sm md:text-base font-medium rounded-lg transition-all duration-300 ${
+                activeTab === tab
                   ? 'bg-black text-white'
-                  : 'text-gray-600 bg-gray-100 hover:bg-gray-200'
-                }
-              `}
+                  : 'text-gray-600 hover:bg-gray-100 hover:text-black'
+              }`}
             >
               {tab}
-            </button>
+            </motion.button>
           ))}
         </div>
 
-        <div className="h-[2px] bg-black w-1/2 mx-auto" />
-      </div>
+        <div className="flex justify-center">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: '50%' }}
+            transition={{ duration: 0.5 }}
+            className="h-[2px] bg-black"
+          />
+        </div>
+      </motion.div>
     );
   };
 
@@ -175,56 +185,61 @@ function Shop() {
 
   return (
     <div className="bg-[#F8FBF8] min-h-screen py-12 px-4 md:px-8 lg:px-16">
-      <h1 className="text-center text-4xl font-bold mb-10 text-gray-800">
+      <motion.h1 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center text-4xl font-bold mb-10 text-gray-800"
+      >
         Our Products
-      </h1>
+      </motion.h1>
       
       <CategoriesBar />
 
       {/* Product Cards for the Active Tab */}
       <motion.div 
-        key={activeTab}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.5, staggerChildren: 0.1 }}
         className="flex flex-wrap justify-center gap-6"
       >
-        {activeProducts.map((product) => (
-          <motion.div 
-            key={product.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer"
-            onClick={() => setSelectedProduct(product)}
-          >
-            <div className="h-64 overflow-hidden">
-              <img 
-                className="w-full h-full object-cover" 
-                src={product.img} 
-                alt={product.title} 
-              />
-            </div>
-            <div className="p-5">
-              <h5 className="text-xl font-bold mb-2 text-gray-900">
-                {product.title}
-              </h5>
-              <div className='flex justify-between items-center mt-4'>
-                <p className="text-lg font-semibold text-gray-700">
-                  {product.price}
-                </p>
-                <button
-                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-colors"
-                >
-                  View Details
-                </button>
+        <AnimatePresence>
+          {activeProducts.map((product) => (
+            <motion.div 
+              key={product.id}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer"
+              onClick={() => setSelectedProduct(product)}
+            >
+              <div className="h-64 overflow-hidden">
+                <img 
+                  className="w-full h-full object-cover" 
+                  src={product.img} 
+                  alt={product.title} 
+                />
               </div>
-            </div>
-          </motion.div>
-        ))}
+              <div className="p-5">
+                <h5 className="text-xl font-bold mb-2 text-gray-900">
+                  {product.title}
+                </h5>
+                <div className='flex justify-between items-center mt-4'>
+                  <p className="text-lg font-semibold text-gray-700">
+                    {product.price}
+                  </p>
+                  <button
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-colors"
+                  >
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </motion.div>
 
       {/* Product Modal with Framer Motion Exit Animation */}
