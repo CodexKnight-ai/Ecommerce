@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SEO from './SEO/SEO';
+import { Helmet } from 'react-helmet-async';
+
+// Lazy load the ProductModal component
+const ProductModal = lazy(() => import('./ProductModal'));
 
 function Shop() {
   // Comprehensive product data with unique details
@@ -100,6 +105,7 @@ function Shop() {
     const tabs = Object.keys(productData);
 
     return (
+      
       <div className="w-full text-center py-6 px-4">
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Our Categories</h2>
         
@@ -128,86 +134,90 @@ function Shop() {
     );
   };
 
-  const ProductModal = ({ product, onClose }) => {
-    if (!product) return null;
+  // Add structured data for products
+  const productStructuredData = {
+    "@context": "https://schema.org/",
+    "@type": "ItemList",
+    "itemListElement": Object.values(productData).flat().map((product, index) => ({
+      "@type": "Product",
+      "position": index + 1,
+      "name": product.title,
+      "description": product.description,
+      "image": `https://prithvisteelart.com${product.img}`,
+      "offers": {
+        "@type": "Offer",
+        "price": product.price.replace('$', ''),
+        "priceCurrency": "USD"
+      }
+    }))
+  };
 
-    return (
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center"
-      >
-        <motion.div 
-          initial={{ scale: 0.8 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0.8 }}
-          className="bg-white rounded-lg max-w-md w-full p-6 relative"
-        >
-          <button 
-            onClick={onClose} 
-            className="absolute top-4 right-4 text-gray-600 hover:text-black"
-          >
-            ✕
-          </button>
-          
-          <img 
-            src={product.img} 
-            alt={product.title} 
-            className="w-full h-64 object-cover rounded-t-lg mb-4"
-          />
-          
-          <h2 className="text-2xl font-bold mb-2">{product.title}</h2>
-          <p className="text-gray-600 mb-4">{product.description}</p>
-          
-          <div className="flex justify-between items-center">
-            <span className="text-xl font-semibold text-gray-800">{product.price}</span>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-              Add to Cart
-            </button>
-          </div>
-        </motion.div>
-      </motion.div>
-    );
+  // Add local business schema
+  const localBusinessSchema = {
+    "@context": "https://schema.org",
+    "@type": "HomeAndConstructionBusiness",
+    "name": "Prithvi Steel Art",
+    "image": "https://prithvisteelart.com/image.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "123 Design Street",
+      "addressLocality": "Creative City",
+      "addressRegion": "State",
+      "postalCode": "12345",
+      "addressCountry": "US"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "YOUR_LATITUDE",
+      "longitude": "YOUR_LONGITUDE"
+    },
+    "url": "https://prithvisteelart.com",
+    "telephone": "+1234567890",
+    "priceRange": "$$"
   };
 
   const activeProducts = productData[activeTab];
 
   return (
-    <div className="bg-[#F8FBF8] min-h-screen py-12 px-4 md:px-8 lg:px-16">
-      <h1 className="text-center text-4xl font-bold mb-10 text-gray-800">
-        Our Products
-      </h1>
+    <section className="bg-[#F8FBF8] min-h-screen py-12 px-4 md:px-8 lg:px-16">
+      <SEO 
+        title="Premium Steel & Glass Products | Prithvi Steel Art"
+        description="Browse our collection of custom metal works, glass railings, and architectural solutions. High-quality craftsmanship for your home and business needs."
+        keywords="steel products, glass railings, metal works, architectural solutions"
+      />
       
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(productStructuredData)}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(localBusinessSchema)}
+        </script>
+      </Helmet>
+
+      <h1 className="text-center text-4xl font-bold mb-10 text-gray-800">
+        Our Premium Steel & Glass Products
+      </h1>
+
       <CategoriesBar />
 
-      {/* Product Cards for the Active Tab */}
-      <motion.div 
-        key={activeTab}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
-        className="flex flex-wrap justify-center gap-6"
-      >
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {activeProducts.map((product) => (
-          <motion.div 
+          <article 
             key={product.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full max-w-xs bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden cursor-pointer"
-            onClick={() => setSelectedProduct(product)}
+            className="product-card bg-white rounded-lg shadow-md overflow-hidden"
           >
-            <div className="h-64 overflow-hidden">
+            <figure className="h-64 overflow-hidden">
               <img 
+                loading="lazy"
                 className="w-full h-full object-cover" 
-                src={product.img} 
-                alt={product.title} 
+                src={product.img.replace('.png', '.webp')} // Use WebP format
+                alt={`${product.title} - ${product.description}`}
+                width="400"
+                height="300"
               />
-            </div>
+            </figure>
             <div className="p-5">
               <h5 className="text-xl font-bold mb-2 text-gray-900">
                 {product.title}
@@ -223,20 +233,20 @@ function Shop() {
                 </button>
               </div>
             </div>
-          </motion.div>
+          </article>
         ))}
-      </motion.div>
+      </div>
 
-      {/* Product Modal with Framer Motion Exit Animation */}
-      <AnimatePresence>
+      {/* Modal with Suspense */}
+      <Suspense fallback={<div>Loading...</div>}>
         {selectedProduct && (
           <ProductModal 
             product={selectedProduct} 
             onClose={() => setSelectedProduct(null)} 
           />
         )}
-      </AnimatePresence>
-    </div>
+      </Suspense>
+    </section>
   );
 }
 
