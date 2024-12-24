@@ -2,107 +2,20 @@ import React, { useState, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from './SEO/SEO';
 import { Helmet } from 'react-helmet-async';
+import { ProductData } from './ProductData';
 
 // Lazy load the ProductModal component
 const ProductModal = lazy(() => import('./ProductModal'));
 
 function Shop() {
   // Comprehensive product data with unique details
-  const productData = {
-    'Wood rail staircase': [
-      {
-        id: 1,
-        title: 'Classic Wooden Railing Design',
-        price: '1500$',
-        img: '/test.png',
-        description: 'Elegant wooden railing with smooth finishing'
-      },
-      {
-        id: 2,
-        title: 'Modern Minimalist Wood Railing',
-        price: '1800$',
-        img: '/test.png',
-        description: 'Sleek design with clean lines'
-      },
-      {
-        id: 3,
-        title: 'Rustic Wooden Staircase Railing',
-        price: '1300$',
-        img: '/test.png',
-        description: 'Vintage-inspired wooden railing'
-      }
-    ],
-    'Main door grill': [
-      {
-        id: 4,
-        title: 'Intricate Geometric Door Grill',
-        price: '2000$',
-        img: '/heroBg.jpeg',
-        description: 'Complex geometric pattern door grill'
-      },
-      {
-        id: 5,
-        title: 'Modern Minimalist Door Grill',
-        price: '1700$',
-        img: '/test.png',
-        description: 'Simple yet stylish door entrance grill'
-      }
-    ],
-    'Ss glass railings': [
-      {
-        id: 6,
-        title: 'Frameless Glass Railing',
-        price: '2500$',
-        img: '/test.png',
-        description: 'Transparent and modern glass railing'
-      },
-      {
-        id: 7,
-        title: 'Stainless Steel Framed Glass Railing',
-        price: '2200$',
-        img: '/heroBg.jpeg',
-        description: 'Robust glass railing with steel frame'
-      }
-    ],
-    'Ss design railing': [
-      {
-        id: 8,
-        title: 'Contemporary SS Railing Design',
-        price: '1900$',
-        img: '/test.png',
-        description: 'Cutting-edge stainless steel railing'
-      },
-      {
-        id: 9,
-        title: 'Industrial Style SS Railing',
-        price: '2100$',
-        img: '/heroBg.jpeg',
-        description: 'Raw and industrial stainless steel design'
-      }
-    ],
-    'Regular best': [
-      {
-        id: 10,
-        title: 'Standard Quality Railing',
-        price: '1200$',
-        img: '/test.png',
-        description: 'Reliable and cost-effective railing solution'
-      },
-      {
-        id: 11,
-        title: 'Best Selling Standard Railing',
-        price: '1400$',
-        img: '/heroBg.jpeg',
-        description: 'Most popular standard railing design'
-      }
-    ]
-  };
+  <ProductData/>
 
   const [activeTab, setActiveTab] = useState('Wood rail staircase');
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   const CategoriesBar = () => {
-    const tabs = Object.keys(productData);
+    const tabs = Object.keys(ProductData);
 
     return (
       
@@ -138,7 +51,7 @@ function Shop() {
   const productStructuredData = {
     "@context": "https://schema.org/",
     "@type": "ItemList",
-    "itemListElement": Object.values(productData).flat().map((product, index) => ({
+    "itemListElement": Object.values(ProductData).flat().map((product, index) => ({
       "@type": "Product",
       "position": index + 1,
       "name": product.title,
@@ -176,7 +89,7 @@ function Shop() {
     "priceRange": "$$"
   };
 
-  const activeProducts = productData[activeTab];
+  const activeProducts = ProductData[activeTab];
 
   return (
     <section className="bg-[#F8FBF8] min-h-screen py-12 px-4 md:px-8 lg:px-16">
